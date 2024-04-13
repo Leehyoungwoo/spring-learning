@@ -1,0 +1,29 @@
+spring:
+  config:
+    activate:
+      on-profile: common
+
+jwt:
+  access-token-header:
+  refresh-token-header:
+  # openssl rand -base64 128 | tr -d '\n'
+  secret: =%
+
+---
+spring:
+  config:
+    activate:
+      on-profile: security-local
+
+jwt:
+  access-token-validity-in-seconds: 180000
+  refresh-token-validity-in-seconds: 18000000
+---
+spring:
+  config:
+    activate:
+      on-profile: security-prod
+
+jwt:
+  token-validity-in-seconds:
+  refresh-token-validity-in-seconds:
