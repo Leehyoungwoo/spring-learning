@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
@@ -19,5 +19,17 @@ public class MemberServiceImpl implements MemberService{
     public void register(MemberJoinDto memberJoinDto) {
         Member newMember = memberJoinDto.toEntity();
         memberRepository.save(newMember);
+    }
+
+    @Override
+    @Transactional
+    public void increaseLoginFailCount(String username) {
+        Member member = memberRepository.findByUsername(username);
+        int failCount = member.getIsCredentialFail();
+        if (failCount == 5) {
+            member.lockAccount();
+            return;
+        }
+        member.increaseCredentialFail();
     }
 }

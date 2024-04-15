@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Getter
 @Builder
 @DynamicUpdate
 @Table(name = "member")
@@ -54,6 +56,14 @@ public class Member {
     public void changePassword(String newPassword) {
         this.password = newPassword;
         this.credentialSet = LocalDateTime.now();
+    }
+
+    public void increaseCredentialFail() {
+        this.isCredentialFail++;
+    }
+
+    public void lockAccount() {
+        this.isAccountNonLocked = false;
     }
 }
 
