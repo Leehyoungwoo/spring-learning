@@ -1,6 +1,7 @@
 package com.springlearning.domain.member.entity;
 
 import com.springlearning.domain.member.entity.type.Role;
+import com.springlearning.global.security.converter.PasswordConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class Member {
     private String username;
 
     @NotNull
+    @Convert(converter = PasswordConverter.class)
     private String password;
 
     @NotNull
