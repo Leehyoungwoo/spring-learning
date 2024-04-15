@@ -2,7 +2,6 @@ package com.springlearning.global.security.converter;
 
 import jakarta.persistence.AttributeConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
