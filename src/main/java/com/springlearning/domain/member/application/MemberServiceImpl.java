@@ -32,4 +32,11 @@ public class MemberServiceImpl implements MemberService {
         }
         member.increaseCredentialFail();
     }
+
+    @Override
+    @Transactional
+    public void resetLoginFailCount(String username) {
+        Member member = memberRepository.findByUsername(username);
+        member.resetLoginFailCount();
+    }
 }

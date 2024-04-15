@@ -65,6 +65,10 @@ public class Member {
     public void lockAccount() {
         this.isAccountNonLocked = false;
     }
+
+    public void resetLoginFailCount() {
+        this.isCredentialFail = 0;
+    }
 }
 
 

@@ -18,6 +18,6 @@ public class PasswordConverter implements AttributeConverter<String, String> {
 
     @Override
     public String convertToEntityAttribute(String encoded) {
-        return passwordEncoder.encode(encoded);
+        return encoded;
     }
 }

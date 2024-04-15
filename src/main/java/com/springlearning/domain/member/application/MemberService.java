@@ -7,4 +7,6 @@ public interface MemberService {
     void register(MemberJoinDto memberJoinDto);
 
     void increaseLoginFailCount(String username);
+
+    void resetLoginFailCount(String username);
 }

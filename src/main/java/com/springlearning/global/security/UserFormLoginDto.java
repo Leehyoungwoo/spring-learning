@@ -1,6 +1,8 @@
 package com.springlearning.global.security;
 
 import com.springlearning.domain.member.entity.type.Role;
+import com.springlearning.global.security.converter.PasswordConverter;
+import jakarta.persistence.Convert;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
