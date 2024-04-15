@@ -28,7 +28,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: db-local
+      on-profile: db-prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url:
