@@ -7,11 +7,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Builder
+@DynamicUpdate
 @Table(name = "member")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,6 +35,26 @@ public class Member {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @NotNull
+    private boolean isAccountNonLocked;
+
+    @NotNull
+    private boolean isCredentialsNonExpired;
+
+    @NotNull
+    private boolean enabled;
+
+    @NotNull
+    private LocalDateTime credentialSet;
+
+    @NotNull
+    private Integer isCredentialFail;
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+        this.credentialSet = LocalDateTime.now();
+    }
 }
 
 
