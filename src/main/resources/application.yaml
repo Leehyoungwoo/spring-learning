@@ -10,9 +10,9 @@ spring:
       prod:
         - db-prod
         - security-prod
-      include:
-        - db
-        - security
+    include:
+      - db
+      - security
 
 ---
 spring:
