@@ -2,7 +2,7 @@ package com.springlearning.global.security.service;
 
 import com.springlearning.domain.member.dao.MemberRepository;
 import com.springlearning.domain.member.entity.Member;
-import com.springlearning.global.security.UserFormLoginDto;
+import com.springlearning.global.security.dto.UserFormLoginDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;

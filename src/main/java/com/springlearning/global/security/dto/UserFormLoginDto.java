@@ -1,4 +1,4 @@
-package com.springlearning.global.security;
+package com.springlearning.global.security.dto;
 
 import com.springlearning.domain.member.entity.type.Role;
 import jakarta.validation.constraints.NotBlank;
