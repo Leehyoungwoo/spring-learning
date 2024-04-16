@@ -54,7 +54,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(
-                        configure -> configure.successHandler(new LoginAuthenticationSuccessHandler(memberService))
+                        configure -> configure.loginProcessingUrl("/api/login")
+                                .successHandler(new LoginAuthenticationSuccessHandler(memberService))
                                 .failureHandler(new LoginAuthenticationFailureHandler(memberService)));
 //                .exceptionHandling(
 //                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())
