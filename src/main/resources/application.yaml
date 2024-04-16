@@ -2,15 +2,14 @@ spring:
   profiles:
     active:
       - local
+      - common
     group:
       local:
         - db-local
         - security-local
-        - common
       prod:
         - db-prod
         - security-prod
-        - common
     include:
       - db
       - security
