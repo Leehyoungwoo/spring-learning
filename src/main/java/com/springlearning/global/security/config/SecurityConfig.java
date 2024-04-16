@@ -3,6 +3,8 @@ package com.springlearning.global.security.config;
 import com.springlearning.domain.member.application.MemberService;
 import com.springlearning.global.security.handler.LoginAuthenticationFailureHandler;
 import com.springlearning.global.security.handler.LoginAuthenticationSuccessHandler;
+import com.springlearning.global.security.jwt.filter.JwtAuthenticationFilter;
+import com.springlearning.global.security.jwt.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,11 +28,12 @@ import java.util.List;
 public class SecurityConfig {
 
     private final MemberService memberService;
+    private final JwtProvider jwtProvider;
     private final String[] URL_WHITE_LIST = {
             "/error", "/login", "/favicon.ico",
             "/actuator/**", "/actuator", "/api-docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**",
-            "/api/auth/login/kakao", "/api/members"
+            "/api/auth/login/kakao", "/api/members, /api/login"
     };
 
     @Bean
@@ -50,8 +54,8 @@ public class SecurityConfig {
                 )
                 .formLogin(
                         configure -> configure.loginProcessingUrl("/api/login")
-                                .successHandler(new LoginAuthenticationSuccessHandler(memberService))
-                                .failureHandler(new LoginAuthenticationFailureHandler(memberService)));
+                                .successHandler(new LoginAuthenticationSuccessHandler(memberService, jwtProvider))
+                                .failureHandler(new LoginAuthenticationFailureHandler(memberService)))
 //                .exceptionHandling(
 //                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())
 //                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
@@ -64,8 +68,8 @@ public class SecurityConfig {
 //                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())
 //                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
 //                )
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
-//                        UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
+                        UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
