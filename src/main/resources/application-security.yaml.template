@@ -4,8 +4,7 @@ spring:
       on-profile: common
 
 jwt:
-  access-token-header:
-  refresh-token-header:
+  header: Authorization
   # openssl rand -base64 128 | tr -d '\n'
   secret: =%
 
