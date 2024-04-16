@@ -31,8 +31,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void increaseLoginFailCount(String username) {
         Member member = memberRepository.findByUsername(username);
-        int failCount = member.getIsCredentialFailCount();
-        if (failCount == 5) {
+        if (member.isFailCountEqualFive()) {
             member.lockAccount();
             return;
         }

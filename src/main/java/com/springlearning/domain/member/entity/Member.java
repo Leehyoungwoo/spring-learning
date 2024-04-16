@@ -69,6 +69,10 @@ public class Member {
     public void resetLoginFailCount() {
         this.isCredentialFailCount = 0;
     }
+
+    public boolean isFailCountEqualFive() {
+        return this.isCredentialFailCount == 5;
+    }
 }
 
 
