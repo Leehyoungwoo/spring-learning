@@ -6,11 +6,11 @@ import com.springlearning.global.security.handler.LoginAuthenticationSuccessHand
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -29,7 +29,7 @@ public class SecurityConfig {
             "/error", "/login", "/favicon.ico",
             "/actuator/**", "/actuator", "/api-docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**",
-            "/api/auth/login/kakao"
+            "/api/auth/login/kakao", "/api/members"
     };
 
     @Bean
@@ -38,17 +38,12 @@ public class SecurityConfig {
                 .cors(cors -> cors
                         .configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
-//                .sessionManagement(
-//                        sessionManagement -> sessionManagement
-//                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(
+                        sessionManagement -> sessionManagement
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(URL_WHITE_LIST)
                         .permitAll()
-                        .requestMatchers(
-                                HttpMethod.POST, "/api/members",
-                                "/users/emails/verification-requests",
-                                "/users/emails/verifications"
-                        ).permitAll()
                         .requestMatchers("/**")
                         .hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
@@ -62,9 +57,9 @@ public class SecurityConfig {
 //                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
 //                )
 //                .oauth2Login(
-//                        configure -> configure.successHandler(new LoginAuthenticationSuccessHandler(jwtProvider))
-//                                .failureHandler(new LoginAuthenticationFailureHandler())
-//                )
+//                        configure -> configure.successHandler(new LoginAuthenticationSuccessHandler(memberService))
+//                                .failureHandler(new LoginAuthenticationFailureHandler(memberService))
+//                );
 //                .exceptionHandling(
 //                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())
 //                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
@@ -87,8 +82,7 @@ public class SecurityConfig {
         config.setAllowedHeaders(List.of(
                 "Authorization",
                 "Cache-Control",
-                "Content-Type",
-                "X-AUTH-TOKEN"
+                "Content-Type"
         ));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
