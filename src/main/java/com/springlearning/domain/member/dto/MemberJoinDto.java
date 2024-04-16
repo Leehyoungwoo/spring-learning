@@ -18,7 +18,7 @@ public record MemberJoinDto(
                 .isCredentialsNonExpired(true)
                 .isAccountNonLocked(true)
                 .credentialSet(LocalDateTime.now())
-                .isCredentialFail(0)
+                .isCredentialFailCount(0)
                 .build();
     }
 }

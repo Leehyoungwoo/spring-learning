@@ -51,7 +51,7 @@ public class Member {
     private LocalDateTime credentialSet;
 
     @NotNull
-    private Integer isCredentialFail;
+    private Integer isCredentialFailCount;
 
     public void changePassword(String newPassword) {
         this.password = newPassword;
@@ -59,7 +59,7 @@ public class Member {
     }
 
     public void increaseCredentialFail() {
-        this.isCredentialFail++;
+        this.isCredentialFailCount++;
     }
 
     public void lockAccount() {
@@ -67,7 +67,7 @@ public class Member {
     }
 
     public void resetLoginFailCount() {
-        this.isCredentialFail = 0;
+        this.isCredentialFailCount = 0;
     }
 }
 

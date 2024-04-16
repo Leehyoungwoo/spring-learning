@@ -15,6 +15,12 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
+    public Integer getLoginFailCount(String username) {
+        Member member = memberRepository.findByUsername(username);
+        return member.getIsCredentialFailCount();
+    }
+
+    @Override
     @Transactional
     public void register(MemberJoinDto memberJoinDto) {
         Member newMember = memberJoinDto.toEntity();
@@ -25,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void increaseLoginFailCount(String username) {
         Member member = memberRepository.findByUsername(username);
-        int failCount = member.getIsCredentialFail();
+        int failCount = member.getIsCredentialFailCount();
         if (failCount == 5) {
             member.lockAccount();
             return;
