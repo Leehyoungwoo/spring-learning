@@ -24,6 +24,7 @@ import java.util.Map;
 public class LoginAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     private final MemberService memberService;
+    private final Gson gson = new Gson();
 
     /*
      * HttpServletRequest : request 정보
@@ -65,8 +66,7 @@ public class LoginAuthenticationFailureHandler implements AuthenticationFailureH
         addJsonToResponse(response, responseMap);
     }
 
-    private static void addJsonToResponse(HttpServletResponse response, Map<String, Object> responseMap) throws IOException {
-        Gson gson = new Gson();
+    private void addJsonToResponse(HttpServletResponse response, Map<String, Object> responseMap) throws IOException {
         String jsonResponse = gson.toJson(responseMap);
         response.getWriter().write(jsonResponse);
     }
