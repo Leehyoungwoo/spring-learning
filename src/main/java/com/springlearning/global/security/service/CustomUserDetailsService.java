@@ -19,6 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
+    // 롤이랑 authorities가 두개 다 있을 필요 없고
     @Override
     public UserFormLoginDto loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByUsername(username);
@@ -26,7 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return UserFormLoginDto.builder()
                 .username(member.getUsername())
                 .password(member.getPassword())
-                .role(member.getRole())
                 .authorities(Collections.singletonList(new SimpleGrantedAuthority(member.getRole().name())))
                 .isAccountNonLocked(member.isAccountNonLocked())
                 .isCredentialsNonExpired(member.isCredentialsNonExpired())
