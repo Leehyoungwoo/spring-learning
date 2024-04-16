@@ -45,6 +45,7 @@ public class LoginAuthenticationFailureHandler implements AuthenticationFailureH
             memberService.increaseLoginFailCount(username);
             Integer loginFailCount = memberService.getLoginFailCount(username);
             failCountMap.put("fail", loginFailCount);
+            responseMap.put("failCount", failCountMap);
             errorMessage.append("비밀번호가 일치하지 않습니다.");
         } else if (exception instanceof InternalAuthenticationServiceException) {
             errorMessage.append("내부 시스템 문제로 로그인 요청을 처리할 수 없습니다. 관리자에게 문의하세요.");
@@ -55,12 +56,15 @@ public class LoginAuthenticationFailureHandler implements AuthenticationFailureH
         } else {
             errorMessage.append("알 수 없는 오류로 로그인 요청을 처리할 수 없습니다. 관리자에게 문의하세요.");
         }
-        responseMap.put("failCount", failCountMap);
         responseMap.put("errorMessage", errorMessage.toString());
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        addJsonToResponse(response, responseMap);
+    }
+
+    private static void addJsonToResponse(HttpServletResponse response, Map<String, Object> responseMap) throws IOException {
         Gson gson = new Gson();
         String jsonResponse = gson.toJson(responseMap);
         response.getWriter().write(jsonResponse);
