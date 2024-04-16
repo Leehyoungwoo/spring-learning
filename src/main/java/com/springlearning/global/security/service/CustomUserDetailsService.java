@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return UserFormLoginDto.builder()
                 .username(member.getUsername())
                 .password(member.getPassword())
-                .authorities(Collections.singletonList(new SimpleGrantedAuthority(member.getRole().name())))
+                .role(member.getRole())
                 .isAccountNonLocked(member.isAccountNonLocked())
                 .isCredentialsNonExpired(member.isCredentialsNonExpired())
                 .isEnabled(member.isEnabled())
