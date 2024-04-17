@@ -35,7 +35,7 @@ public class AutoController {
         String accessToken = tokenDto.accessToken();
         log.info("acceess : " + accessToken);
         TokenDto newTokenDto = refreshTokenService.refreshAccessToken(accessToken, refreshToken);
-        response.addHeader("Authorization", "Bearer " + newTokenDto.accessToken());
+        response.addHeader("Access-Token", "Bearer " + newTokenDto.accessToken());
     }
 
     private Cookie getCookie(HttpServletRequest request) {

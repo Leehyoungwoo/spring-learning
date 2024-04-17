@@ -30,7 +30,7 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
 
         // Access Token 발급
         String accessToken = jwtProvider.createAccessToken(authentication);
-        response.addHeader("Authorization", "Bearer " + accessToken);
+        response.addHeader("Access-Token", "Bearer " + accessToken);
 
         // Refresh Token 발급
         String refreshToken = jwtProvider.createRefreshToken(authentication);
