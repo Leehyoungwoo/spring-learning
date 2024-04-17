@@ -50,7 +50,7 @@ public class RefreshTokenService {
         Authentication authentication = jwtProvider.getAuthentication(refreshToken);
         String newAccessToken = jwtProvider.createAccessToken(authentication);
         this.removeRefreshToken(accessToken);
-        saveTokenInfo(refreshToken, accessToken);
+        saveTokenInfo(refreshToken, newAccessToken);
         return TokenDto.builder()
                 .accessToken(newAccessToken)
                 .build();
