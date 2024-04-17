@@ -40,8 +40,8 @@ public class JwtProvider {
     ) {
         this.jwtHeaderKey = jwtHeaderKey;
         this.jwtSecretKey = jwtSecretKey;
-        this.refreshValidityInMilliseconds = refreshValidityInMilliseconds;
-        this.accessValidityInMilliseconds = accessValidityInMilliseconds;
+        this.refreshValidityInMilliseconds = refreshValidityInMilliseconds * 1000;
+        this.accessValidityInMilliseconds = accessValidityInMilliseconds * 1000;
     }
 
     @PostConstruct

@@ -1,6 +1,7 @@
 package com.springlearning.global.security.config;
 
 import com.springlearning.domain.member.application.MemberService;
+import com.springlearning.global.redis.service.RefreshTokenService;
 import com.springlearning.global.security.handler.LoginAuthenticationFailureHandler;
 import com.springlearning.global.security.handler.LoginAuthenticationSuccessHandler;
 import com.springlearning.global.security.jwt.filter.JwtAuthenticationFilter;
@@ -27,13 +28,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final RefreshTokenService refreshTokenService;
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
     private final String[] URL_WHITE_LIST = {
             "/error", "/login", "/favicon.ico",
             "/actuator/**", "/actuator", "/api-docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**",
-            "/api/auth/login/kakao", "/api/members, /api/login"
+            "/api/auth/login/kakao", "/api/members, /api/login", "/auth/refresh"
     };
 
     @Bean
@@ -54,7 +56,7 @@ public class SecurityConfig {
                 )
                 .formLogin(
                         configure -> configure.loginProcessingUrl("/api/login")
-                                .successHandler(new LoginAuthenticationSuccessHandler(memberService, jwtProvider))
+                                .successHandler(new LoginAuthenticationSuccessHandler(memberService, refreshTokenService,jwtProvider))
                                 .failureHandler(new LoginAuthenticationFailureHandler(memberService)))
 //                .exceptionHandling(
 //                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())

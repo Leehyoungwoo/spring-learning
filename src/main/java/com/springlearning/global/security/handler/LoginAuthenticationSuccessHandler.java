@@ -1,6 +1,7 @@
 package com.springlearning.global.security.handler;
 
 import com.springlearning.domain.member.application.MemberService;
+import com.springlearning.global.redis.service.RefreshTokenService;
 import com.springlearning.global.security.jwt.util.JwtProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -18,6 +19,7 @@ import java.io.IOException;
 public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final MemberService memberService;
+    private final RefreshTokenService refreshTokenService;
     private final JwtProvider jwtProvider;
 
     @Override
@@ -31,8 +33,12 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
         response.addHeader("Authorization", "Bearer " + accessToken);
 
         // Refresh Token 발급
-        Cookie cookie = createCookie(authentication);
+        String refreshToken = jwtProvider.createRefreshToken(authentication);
+        Cookie cookie = createCookie(refreshToken);
         response.addCookie(cookie);
+
+        // Refresh Token redis에 저장
+        refreshTokenService.saveTokenInfo(refreshToken, accessToken);
 
         // 로그인 성공 메세지
         response.setContentType("application/json");
@@ -40,10 +46,9 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
         response.getWriter().write("{\"message\":\"로그인이 되었습니다.\"}");
     }
 
-    public Cookie createCookie(Authentication authentication) {
+    public Cookie createCookie(String refreshToken) {
         String cookieName = "Refresh-Token";
-        String cookieValue = jwtProvider.createRefreshToken(authentication);
-        Cookie cookie = new Cookie(cookieName, cookieValue);
+        Cookie cookie = new Cookie(cookieName, refreshToken);
         // 쿠키 속성 설정
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
