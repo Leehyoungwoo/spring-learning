@@ -1,6 +1,5 @@
 package com.springlearning.global.security.jwt.api;
 
-import com.springlearning.global.redis.entity.RefreshToken;
 import com.springlearning.global.redis.service.RefreshTokenService;
 import com.springlearning.global.security.jwt.dto.TokenDto;
 import jakarta.servlet.http.Cookie;

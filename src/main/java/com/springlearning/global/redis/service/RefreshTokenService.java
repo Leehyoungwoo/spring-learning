@@ -4,7 +4,6 @@ import com.springlearning.global.redis.dao.RefreshTokenRepository;
 import com.springlearning.global.redis.entity.RefreshToken;
 import com.springlearning.global.security.jwt.dto.TokenDto;
 import com.springlearning.global.security.jwt.util.JwtProvider;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
