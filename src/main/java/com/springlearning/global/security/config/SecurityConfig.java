@@ -2,6 +2,8 @@ package com.springlearning.global.security.config;
 
 import com.springlearning.domain.member.application.MemberService;
 import com.springlearning.global.redis.service.RefreshTokenService;
+import com.springlearning.global.security.handler.common.CustomAccessDeniedHandler;
+import com.springlearning.global.security.handler.entrypoint.CustomAuthenticationEntryPoint;
 import com.springlearning.global.security.handler.form.LoginAuthenticationFailureHandler;
 import com.springlearning.global.security.handler.form.LoginAuthenticationSuccessHandler;
 import com.springlearning.global.security.handler.social.SocialLoginAuthenticationFailureHandler;
@@ -60,18 +62,14 @@ public class SecurityConfig {
                         configure -> configure.loginProcessingUrl("/api/login")
                                 .successHandler(new LoginAuthenticationSuccessHandler(memberService, refreshTokenService, jwtProvider))
                                 .failureHandler(new LoginAuthenticationFailureHandler(memberService)))
-//                .exceptionHandling(
-//                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())
-//                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-//                )
                 .oauth2Login(
                         configure -> configure.successHandler(new SocialLoginAuthenticationSuccessHandler(refreshTokenService, jwtProvider))
                                 .failureHandler(new SocialLoginAuthenticationFailureHandler())
                 )
-//                .exceptionHandling(
-//                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())
-//                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-//                )
+                .exceptionHandling(
+                        configurer -> configurer.accessDeniedHandler(new CustomAccessDeniedHandler())
+                                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),
                         UsernamePasswordAuthenticationFilter.class);
 
