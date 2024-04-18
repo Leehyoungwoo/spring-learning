@@ -2,6 +2,7 @@ package com.springlearning.global.security.jwt.api;
 
 import com.springlearning.global.redis.service.RefreshTokenService;
 import com.springlearning.global.security.jwt.dto.TokenDto;
+import com.springlearning.global.security.jwt.util.JwtProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 public class AutoController {
 
     private final RefreshTokenService refreshTokenService;
+    private final JwtProvider jwtProvider;
 
     @PostMapping("/refresh")
     public void refreshAccessToken(HttpServletRequest request,
@@ -36,6 +38,18 @@ public class AutoController {
         log.info("acceess : " + accessToken);
         TokenDto newTokenDto = refreshTokenService.refreshAccessToken(accessToken, refreshToken);
         response.addHeader("Access-Token", "Bearer " + newTokenDto.accessToken());
+    }
+
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        // Redis에 있는 refresh token 제거
+        String accessToken = jwtProvider.resolveToken(request);
+        refreshTokenService.removeRefreshToken(accessToken);
+        Cookie refreshCookie = getCookie(request);
+        if (refreshCookie != null) {
+            refreshCookie.setMaxAge(0);
+            response.addCookie(refreshCookie);
+        }
     }
 
     private Cookie getCookie(HttpServletRequest request) {

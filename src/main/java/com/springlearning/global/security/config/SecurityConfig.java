@@ -13,6 +13,7 @@ import com.springlearning.global.security.jwt.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -54,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(URL_WHITE_LIST)
                         .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/members").permitAll()
                         .requestMatchers("/**")
                         .hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
@@ -62,10 +64,10 @@ public class SecurityConfig {
                         configure -> configure.loginProcessingUrl("/api/login")
                                 .successHandler(new LoginAuthenticationSuccessHandler(memberService, refreshTokenService, jwtProvider))
                                 .failureHandler(new LoginAuthenticationFailureHandler(memberService)))
-                .oauth2Login(
-                        configure -> configure.successHandler(new SocialLoginAuthenticationSuccessHandler(refreshTokenService, jwtProvider))
-                                .failureHandler(new SocialLoginAuthenticationFailureHandler())
-                )
+//                .oauth2Login(
+//                        configure -> configure.successHandler(new SocialLoginAuthenticationSuccessHandler(refreshTokenService, jwtProvider))
+//                                .failureHandler(new SocialLoginAuthenticationFailureHandler())
+//                )
                 .exceptionHandling(
                         configurer -> configurer.accessDeniedHandler(new CustomAccessDeniedHandler())
                                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())

@@ -68,9 +68,7 @@ public class JwtProvider {
                 .getPayload();
 
         Collection<? extends GrantedAuthority> authorities = getAuthorities(claims);
-        String username = claims.get("username").toString();
         UserFormLoginDto principal = UserFormLoginDto.builder()
-                .username(username)
                 .authorities(authorities)
                 .isEnabled(true)
                 .isCredentialsNonExpired(true)

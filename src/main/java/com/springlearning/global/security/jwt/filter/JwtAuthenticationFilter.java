@@ -26,17 +26,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("token : " + token);
         String requestURI = request.getRequestURI();
         log.info("url : " + requestURI);
-        if (requestURI.equals("/api/login")
-                && StringUtils.hasText(token)
-                && jwtProvider.validateToken(token)) {
-            Authentication authentication = jwtProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(request, response);
-            return;
+
+        if (StringUtils.hasText(token) && jwtProvider.validateToken(token)) {
+            Authentication authentication = null;
+
+            // OAuth2 로그인 처리
+            if (requestURI.equals("/oauth2/authorization/kakao")) {
+                authentication = jwtProvider.getOAuth2Authentication(token);
+            }
+            // 기타 일반 요청에 대한 인증 처리
+            else {
+                authentication = jwtProvider.getAuthentication(token);
+            }
+
+            // SecurityContext에 인증 정보 설정
+            if (authentication != null) {
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
-        Authentication authentication = jwtProvider.getOAuth2Authentication(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
 }

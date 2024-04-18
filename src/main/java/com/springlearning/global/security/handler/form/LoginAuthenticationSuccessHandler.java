@@ -52,7 +52,7 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
         // 쿠키 속성 설정
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
-        cookie.setPath("/auth/refresh");
+        cookie.setPath("/auth");
         cookie.setMaxAge(15 * 60 * 60 * 24);
         return cookie;
     }
