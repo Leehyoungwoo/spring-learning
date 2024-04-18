@@ -1,4 +1,4 @@
-package com.springlearning.global.security.handler.sociallogin;
+package com.springlearning.global.security.handler.social;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

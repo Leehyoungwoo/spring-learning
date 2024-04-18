@@ -2,10 +2,10 @@ package com.springlearning.global.security.config;
 
 import com.springlearning.domain.member.application.MemberService;
 import com.springlearning.global.redis.service.RefreshTokenService;
-import com.springlearning.global.security.handler.formlogin.LoginAuthenticationFailureHandler;
-import com.springlearning.global.security.handler.formlogin.LoginAuthenticationSuccessHandler;
-import com.springlearning.global.security.handler.sociallogin.SocialLoginAuthenticationFailureHandler;
-import com.springlearning.global.security.handler.sociallogin.SocialLoginAuthenticationSuccessHandler;
+import com.springlearning.global.security.handler.form.LoginAuthenticationFailureHandler;
+import com.springlearning.global.security.handler.form.LoginAuthenticationSuccessHandler;
+import com.springlearning.global.security.handler.social.SocialLoginAuthenticationFailureHandler;
+import com.springlearning.global.security.handler.social.SocialLoginAuthenticationSuccessHandler;
 import com.springlearning.global.security.jwt.filter.JwtAuthenticationFilter;
 import com.springlearning.global.security.jwt.util.JwtProvider;
 import lombok.RequiredArgsConstructor;

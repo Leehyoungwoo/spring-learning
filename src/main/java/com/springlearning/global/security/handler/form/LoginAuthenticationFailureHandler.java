@@ -1,4 +1,4 @@
-package com.springlearning.global.security.handler.formlogin;
+package com.springlearning.global.security.handler.form;
 
 import com.google.gson.Gson;
 import com.springlearning.domain.member.application.MemberService;
