@@ -1,5 +1,7 @@
 package com.springlearning.global.security.jwt.util;
 
+import com.springlearning.domain.member.entity.type.Role;
+import com.springlearning.global.security.dto.OAuth2LoginDto;
 import com.springlearning.global.security.dto.UserFormLoginDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -78,6 +80,25 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
+    public Authentication getOAuth2Authentication(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        Role role = Role.valueOf(claims.get("role").toString());
+        String username = claims.get("username").toString();
+
+        OAuth2LoginDto principal = OAuth2LoginDto.builder()
+                .username(username)
+                .role(role)
+                .build();
+
+        return new UsernamePasswordAuthenticationToken(principal, token, principal.getAuthorities());
+    }
+
+
     private Collection<? extends GrantedAuthority> getAuthorities(Claims claims) {
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
@@ -121,13 +142,11 @@ public class JwtProvider {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-        UserFormLoginDto principal = (UserFormLoginDto) authentication.getPrincipal();
         long now = System.currentTimeMillis();
         Date expirationDate = new Date(now + tokenValidityInMilliseconds);
 
         return Jwts.builder()
                 .claim(AUTHORITIES_KEY, authorites)
-                .claim("username", principal.getUsername())
                 .signWith(key)
                 .expiration(expirationDate)
                 .compact();

@@ -1,4 +1,4 @@
-package com.springlearning.global.security.handler;
+package com.springlearning.global.security.handler.formlogin;
 
 import com.google.gson.Gson;
 import com.springlearning.domain.member.application.MemberService;
@@ -55,7 +55,7 @@ public class LoginAuthenticationFailureHandler implements AuthenticationFailureH
             errorMessage.append("존재하지 않는 계정입니다. 회원가입 후 로그인해주세요.");
         } else if (exception instanceof AuthenticationCredentialsNotFoundException) {
             errorMessage.append("인증 요청이 거부되었습니다. 관리자에게 문의하세요.");
-        } else if (exception instanceof LockedException){
+        } else if (exception instanceof LockedException) {
             errorMessage.append(exception.getMessage());
         }
         responseMap.put("message", errorMessage.toString());

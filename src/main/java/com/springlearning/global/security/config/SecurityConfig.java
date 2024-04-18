@@ -2,8 +2,10 @@ package com.springlearning.global.security.config;
 
 import com.springlearning.domain.member.application.MemberService;
 import com.springlearning.global.redis.service.RefreshTokenService;
-import com.springlearning.global.security.handler.LoginAuthenticationFailureHandler;
-import com.springlearning.global.security.handler.LoginAuthenticationSuccessHandler;
+import com.springlearning.global.security.handler.formlogin.LoginAuthenticationFailureHandler;
+import com.springlearning.global.security.handler.formlogin.LoginAuthenticationSuccessHandler;
+import com.springlearning.global.security.handler.sociallogin.SocialLoginAuthenticationFailureHandler;
+import com.springlearning.global.security.handler.sociallogin.SocialLoginAuthenticationSuccessHandler;
 import com.springlearning.global.security.jwt.filter.JwtAuthenticationFilter;
 import com.springlearning.global.security.jwt.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,7 @@ public class SecurityConfig {
             "/error", "/login", "/favicon.ico",
             "/actuator/**", "/actuator", "/api-docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**",
-            "/api/auth/login/kakao", "/api/members, /api/login", "/auth/refresh"
+            "/oauth2/authorization/kakao", "/api/members, /api/login", "/auth/refresh"
     };
 
     @Bean
@@ -56,16 +58,16 @@ public class SecurityConfig {
                 )
                 .formLogin(
                         configure -> configure.loginProcessingUrl("/api/login")
-                                .successHandler(new LoginAuthenticationSuccessHandler(memberService, refreshTokenService,jwtProvider))
+                                .successHandler(new LoginAuthenticationSuccessHandler(memberService, refreshTokenService, jwtProvider))
                                 .failureHandler(new LoginAuthenticationFailureHandler(memberService)))
 //                .exceptionHandling(
 //                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())
 //                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
 //                )
-//                .oauth2Login(
-//                        configure -> configure.successHandler(new LoginAuthenticationSuccessHandler(memberService))
-//                                .failureHandler(new LoginAuthenticationFailureHandler(memberService))
-//                );
+                .oauth2Login(
+                        configure -> configure.successHandler(new SocialLoginAuthenticationSuccessHandler(refreshTokenService, jwtProvider))
+                                .failureHandler(new SocialLoginAuthenticationFailureHandler())
+                )
 //                .exceptionHandling(
 //                        configurer -> configurer.accessDeniedHandler(new JwtAccessDeniedHandler())
 //                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
