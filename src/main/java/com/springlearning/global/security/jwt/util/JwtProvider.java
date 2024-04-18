@@ -100,7 +100,7 @@ public class JwtProvider {
     private Collection<? extends GrantedAuthority> getAuthorities(Claims claims) {
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                        .map(authority -> new SimpleGrantedAuthority("ROLE_" + authority))
+                        .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toCollection(ArrayList::new));
         return authorities;
     }

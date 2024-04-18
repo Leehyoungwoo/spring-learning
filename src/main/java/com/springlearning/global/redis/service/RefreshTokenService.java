@@ -33,6 +33,7 @@ public class RefreshTokenService {
 
     @Transactional
     public void removeRefreshToken(String accessToken) {
+        log.info("redis에서 삭제");
         refreshTokenRepository.findByAccessToken(accessToken)
                 .ifPresent(refreshTokenRepository::delete);
     }
@@ -42,8 +43,9 @@ public class RefreshTokenService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Refresh token cookie expired"));
     }
 
+    @Transactional
     public TokenDto refreshAccessToken(String accessToken, String refreshToken) {
-        RefreshToken refreshTokenByAccessToken = findRefreshTokenByAccessToken(accessToken);
+        RefreshToken refreshTokenByAccessToken = this.findRefreshTokenByAccessToken(accessToken);
         log.info("리프레시 레디스에서 가져오기" + refreshTokenByAccessToken.getRefreshToken());
         if (!refreshToken.equals(refreshTokenByAccessToken.getRefreshToken())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Refresh Token");
@@ -52,7 +54,7 @@ public class RefreshTokenService {
         Authentication authentication = jwtProvider.getAuthentication(refreshToken);
         String newAccessToken = jwtProvider.createAccessToken(authentication);
         this.removeRefreshToken(accessToken);
-        saveTokenInfo(refreshToken, newAccessToken);
+        this.saveTokenInfo(refreshToken, newAccessToken);
         return TokenDto.builder()
                 .accessToken(newAccessToken)
                 .build();
