@@ -64,10 +64,10 @@ public class SecurityConfig {
                         configure -> configure.loginProcessingUrl("/api/login")
                                 .successHandler(new LoginAuthenticationSuccessHandler(memberService, refreshTokenService, jwtProvider))
                                 .failureHandler(new LoginAuthenticationFailureHandler(memberService)))
-//                .oauth2Login(
-//                        configure -> configure.successHandler(new SocialLoginAuthenticationSuccessHandler(refreshTokenService, jwtProvider))
-//                                .failureHandler(new SocialLoginAuthenticationFailureHandler())
-//                )
+                .oauth2Login(
+                        configure -> configure.successHandler(new SocialLoginAuthenticationSuccessHandler(refreshTokenService, jwtProvider))
+                                .failureHandler(new SocialLoginAuthenticationFailureHandler())
+                )
                 .exceptionHandling(
                         configurer -> configurer.accessDeniedHandler(new CustomAccessDeniedHandler())
                                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())

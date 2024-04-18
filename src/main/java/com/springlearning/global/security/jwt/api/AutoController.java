@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -53,6 +54,7 @@ public class AutoController {
     }
 
     private Cookie getCookie(HttpServletRequest request) {
+        log.info(Objects.toString(request) + "쿠키");
         return Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals("Refresh-Token"))
                 .findFirst()
