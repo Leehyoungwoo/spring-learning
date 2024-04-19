@@ -40,7 +40,7 @@ public class SecurityConfig {
             "/error", "/login", "/favicon.ico",
             "/actuator/**", "/actuator", "/api-docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**",
-            "/oauth2/authorization/kakao", "/api/members, /api/login", "/auth/refresh"
+            "/oauth2/authorization/kakao", "/api/login", "/auth/refresh"
     };
 
     @Bean
