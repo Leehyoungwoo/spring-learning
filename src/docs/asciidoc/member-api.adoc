@@ -11,6 +11,6 @@
 
 include::{snippets}/회원가입/http-request.adoc[]
 
-== Response
+=== Response
 
 include::{snippets}/회원가입/http-response.adoc[]
