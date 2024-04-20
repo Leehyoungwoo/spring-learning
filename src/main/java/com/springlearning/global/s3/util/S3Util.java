@@ -65,6 +65,5 @@ public class S3Util {
         S3Object s3Object = amazonS3.getObject(new GetObjectRequest(bucketName, decodedKey));
 
         return s3Object.getObjectContent().readAllBytes();
-
     }
 }
