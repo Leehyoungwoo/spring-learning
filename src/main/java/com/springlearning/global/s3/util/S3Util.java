@@ -1,7 +1,6 @@
-package com.springlearning.global.s3.service;
+package com.springlearning.global.s3.util;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.springlearning.domain.file.entity.File;
@@ -20,7 +19,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class S3Service {
+public class S3Util {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;

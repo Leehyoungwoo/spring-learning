@@ -3,7 +3,7 @@ package com.springlearning.domain.file.service;
 import com.springlearning.domain.file.dao.FileRepository;
 import com.springlearning.domain.file.entity.File;
 import com.springlearning.domain.file.entity.type.FileType;
-import com.springlearning.global.s3.service.S3Service;
+import com.springlearning.global.s3.util.S3Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +17,12 @@ import java.io.IOException;
 public class FileServiceImpl implements FileService {
 
     private final FileRepository fileRepository;
-    private final S3Service s3Service;
+    private final S3Util s3Util;
 
     @Override
     @Transactional
     public void uploadFile(FileType fileType, MultipartFile file) throws IOException {
-        File entity = s3Service.upload(fileType, file);
+        File entity = s3Util.upload(fileType, file);
         fileRepository.save(entity);
     }
 }
