@@ -61,8 +61,7 @@ public class S3Util {
         String fileUrl = file.getUrl();
         String objectKey = fileUrl.substring(fileUrl.indexOf(".com/") + 5);
 
-        String decodedKey = URLDecoder.decode(objectKey, StandardCharsets.UTF_8.name());
-
+        String decodedKey = URLDecoder.decode(objectKey, StandardCharsets.UTF_8);
         S3Object s3Object = amazonS3.getObject(new GetObjectRequest(bucketName, decodedKey));
 
         return s3Object.getObjectContent().readAllBytes();
