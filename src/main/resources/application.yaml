@@ -14,6 +14,7 @@ spring:
       - db
       - security
       - aws
+      - ai
 
 ---
 spring:
