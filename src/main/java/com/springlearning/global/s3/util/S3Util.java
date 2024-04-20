@@ -53,7 +53,10 @@ public class S3Util {
     }
 
     public void remove(File file) {
-        final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucketName, file.getUrl());
+        final String fileUrl = file.getUrl();
+        final String objectKey = fileUrl.substring(fileUrl.indexOf(".com/") + 5);
+
+        final DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucketName, objectKey);
         amazonS3.deleteObject(deleteObjectRequest);
     }
 
