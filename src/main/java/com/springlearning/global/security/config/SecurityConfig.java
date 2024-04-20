@@ -38,7 +38,7 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final String[] URL_WHITE_LIST = {
             "/error", "/login", "/favicon.ico",
-            "/actuator/**", "/actuator", "/api-docs/**", "/swagger-ui/**",
+            "/actuator/**", "/actuator", "/docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**",
             "/oauth2/authorization/kakao", "/api/login", "/auth/refresh"
     };
