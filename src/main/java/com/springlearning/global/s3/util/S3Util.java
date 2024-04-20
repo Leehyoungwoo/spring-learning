@@ -26,10 +26,10 @@ public class S3Util {
     private final AmazonS3 amazonS3;
 
     public File upload(FileType fileType, MultipartFile multipartFile) throws IOException {
-        String originFileName = multipartFile.getOriginalFilename();
-        String folderKey = fileType.toString().toLowerCase() + "/";
-        UUID randomId = UUID.randomUUID();
-        String fileName = randomId + "_" + originFileName;
+        final String originFileName = multipartFile.getOriginalFilename();
+        final String folderKey = fileType.toString().toLowerCase() + "/";
+        final UUID randomId = UUID.randomUUID();
+        final String fileName = randomId + "_" + originFileName;
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
@@ -39,9 +39,9 @@ public class S3Util {
             amazonS3.putObject(bucketName, folderKey, "");
         }
 
-        String objectKey = folderKey + fileName;
+        final String objectKey = folderKey + fileName;
         amazonS3.putObject(new PutObjectRequest(bucketName, objectKey, multipartFile.getInputStream(), objectMetadata));
-        String fileUrl = amazonS3.getUrl(bucketName, objectKey).toString();
+        final String fileUrl = amazonS3.getUrl(bucketName, objectKey).toString();
 
         return File.builder()
                 .name(fileName)
@@ -58,11 +58,11 @@ public class S3Util {
     }
 
     public byte[] getFile(File file) throws Exception {
-        String fileUrl = file.getUrl();
-        String objectKey = fileUrl.substring(fileUrl.indexOf(".com/") + 5);
+        final String fileUrl = file.getUrl();
+        final String objectKey = fileUrl.substring(fileUrl.indexOf(".com/") + 5);
 
-        String decodedKey = URLDecoder.decode(objectKey, StandardCharsets.UTF_8);
-        S3Object s3Object = amazonS3.getObject(new GetObjectRequest(bucketName, decodedKey));
+        final String decodedKey = URLDecoder.decode(objectKey, StandardCharsets.UTF_8);
+        final S3Object s3Object = amazonS3.getObject(new GetObjectRequest(bucketName, decodedKey));
 
         return s3Object.getObjectContent().readAllBytes();
     }
