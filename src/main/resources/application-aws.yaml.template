@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: common
+cloud:
+  aws:
+    s3:
+      bucket:
+    stack:
+      auto: false
+    region:
+      static: ap-southeast-2
+    credentials:
+      access-key:
+      secret-key:
