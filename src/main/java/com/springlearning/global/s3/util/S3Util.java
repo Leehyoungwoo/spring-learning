@@ -2,7 +2,6 @@ package com.springlearning.global.s3.util;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
-import com.amazonaws.util.IOUtils;
 import com.springlearning.domain.file.entity.File;
 import com.springlearning.domain.file.entity.type.FileType;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;

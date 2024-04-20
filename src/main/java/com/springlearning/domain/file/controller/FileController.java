@@ -2,16 +2,12 @@ package com.springlearning.domain.file.controller;
 
 import com.springlearning.domain.file.entity.type.FileType;
 import com.springlearning.domain.file.service.FileService;
-import com.springlearning.global.security.dto.UserFormLoginDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.http.HttpClient;
-import java.net.http.HttpHeaders;
 import java.util.UUID;
 
 @RestController
