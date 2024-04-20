@@ -2,9 +2,11 @@ package com.springlearning.domain.member.dto;
 
 import com.springlearning.domain.member.entity.Member;
 import com.springlearning.domain.member.entity.type.Role;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+@Builder
 public record MemberJoinDto(
         String username,
         String password
